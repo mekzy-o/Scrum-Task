@@ -4,16 +4,11 @@ const loginForm = document.querySelector("#login-form");
 const signupForm = document.querySelector("#signup-form");
 
 const authLogin = () => {
-  if (window.localStorage.token === "true") {
-    window.location.replace("admin.html");
-  } else {
-    window.location.replace("user-profile.html");
-  }
+  window.location.href = "createQuestions.html";
 };
 
 const authSignup = () => {
-
-console.log('Signed up successfully!')
+  console.log("Signed up successfully!");
   if (window.localStorage.admin === "true") {
     window.location.replace("admin-profile.html");
   } else {
@@ -54,27 +49,27 @@ if (signupForm) {
       .then(data => {
         if (data.status === 201) {
           console.log(data);
-            window.localStorage.token = data.data.token;
-            // window.localStorage.admin = data.data.user.isadmin;
-            window.localStorage.user = data.data.user.id;
-            const { user } = data.data;
-            document.querySelector(
-              "#signup-form"
-            ).innerHTML = `<h2>Signup Successful!</h2>
+          window.localStorage.token = data.data.token;
+          // window.localStorage.admin = data.data.user.isadmin;
+          window.localStorage.user = data.data.user.id;
+          const { user } = data.data;
+          document.querySelector(
+            "#signup-form"
+          ).innerHTML = `<h2>Signup Successful!</h2>
                     <h3>Welcome</h3> <p>${user.firstName}</p> ${user.lastName}`;
-            setTimeout(() => {
-              authSignup();
-            }, 15000);
-          } else {
-            console.log("can't go");
-            let output = "<h3>Error<h3/>";
-            Object.keys(data).forEach(key => {
-              output += `<p>${data[key]}<p/>`;
-            });
-            document.querySelector("#signup-form").innerHTML = output;
-            setTimeout(() => {
-              window.location.replace("signup.html");
-            }, 5000);
+          setTimeout(() => {
+            authSignup();
+          }, 15000);
+        } else {
+          console.log("can't go");
+          let output = "<h3>Error<h3/>";
+          Object.keys(data).forEach(key => {
+            output += `<p>${data[key]}<p/>`;
+          });
+          document.querySelector("#signup-form").innerHTML = output;
+          setTimeout(() => {
+            window.location.replace("signup.html");
+          }, 5000);
         }
       })
       .catch(error => {
@@ -97,9 +92,9 @@ if (signupForm) {
 if (loginForm) {
   loginForm.addEventListener("submit", e => {
     e.preventDefault();
-    const email = document.querySelector("#email").value;
-    const password = document.querySelector("#password").value;
-    fetch(`${baseUrl}/auth/signin`, {
+    const email = document.querySelector("#inputEmail4").value;
+    const password = document.querySelector("#inputPassword4").value;
+    fetch("http://stack-o-lite.herokuapp.com/api/v1/auth/login", {
       method: "POST",
       //   mode: 'cors',
       headers: {
@@ -111,6 +106,7 @@ if (loginForm) {
       .then(res => res.json())
       .then(data => {
         console.log(data);
+        window.location.href = "createQuestions.html";
         if (data.status === 200) {
           window.localStorage.clear();
           window.localStorage.token = data.data.token;
@@ -127,8 +123,8 @@ if (loginForm) {
           }</h2>
                 <h3>Please check your login details</h3>`;
           setTimeout(() => {
-            window.location.replace("login.html");
-          }, 100000);
+            window.location.replace("signin.html");
+          }, 10000);
         }
       })
       .catch(error => {
@@ -137,7 +133,7 @@ if (loginForm) {
         ).innerHTML = `<h2>Sorry, something went wrong with the server error</h2>
               <h3  class='welcome-success'>${error}</h3>`;
         setTimeout(() => {
-          window.location.replace("login.html");
+          window.location.replace("signin.html");
         }, 100000);
       });
   });
