@@ -2,7 +2,7 @@ body {
     font-family:Lato,'Helvetica Neue',Helvetica,Arial,sans-serif
 }
 
-#logo {
+.logo {
     max-width: 105px;
 }
 
@@ -12,13 +12,15 @@ body {
 }
 
 section {
-    padding: 2rem;
-}
-
-#signup_img {
-    max-width: 50rem;
+    padding: 3rem;
 }
 
 footer {
     background-color: #f8f9fa;
+    bottom: 0;
+    padding-bottom: 100px;
+}
+
+.display-inline {
+    display: inline-block;
 }
